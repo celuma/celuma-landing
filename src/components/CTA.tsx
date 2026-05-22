@@ -76,12 +76,14 @@ export default function CTA() {
             marginRight: 'auto',
           }}
         >
-          Agenda una demostración personalizada y descubre cómo Céluma puede transformar la gestión de tu laboratorio de patología.
+          Empieza hoy. Crea tu cuenta, configura tu laboratorio y digitaliza tu flujo de trabajo desde el primer día.
         </p>
 
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
-            href="mailto:hola@celuma.mx?subject=Solicitud de demo&body=Hola, me gustaría solicitar una demostración de Céluma."
+            href="https://app.celuma.mx"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -106,14 +108,17 @@ export default function CTA() {
             }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+              <polyline points="10 17 15 12 10 7" />
+              <line x1="15" y1="12" x2="3" y2="12" />
             </svg>
-            Solicitar demo
+            Ir a la aplicación
           </a>
 
           <a
-            href="#funcionalidades"
+            href="https://docs.celuma.mx"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -137,7 +142,19 @@ export default function CTA() {
               e.currentTarget.style.color = 'rgba(255,255,255,0.8)'
             }}
           >
-            Ver funcionalidades
+            Documentación
+            <span style={{
+              fontSize: 10,
+              fontWeight: 700,
+              background: 'rgba(15,139,141,0.3)',
+              color: '#7dd8d9',
+              padding: '2px 7px',
+              borderRadius: 4,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+            }}>
+              Pronto
+            </span>
           </a>
         </div>
 

@@ -43,13 +43,14 @@ export default function Footer() {
                 { label: 'Funcionalidades', href: '#funcionalidades' },
                 { label: 'Cómo funciona', href: '#como-funciona' },
                 { label: 'Para quién', href: '#para-quien' },
+                { label: 'Documentación', href: 'https://docs.celuma.mx', external: true, soon: true },
               ]}
             />
             <FooterColumn
               title="Empresa"
               links={[
                 { label: 'Nuestra misión', href: '#nosotros' },
-                { label: 'Solicitar demo', href: '#contacto' },
+                { label: 'Ir a la aplicación', href: 'https://app.celuma.mx', external: true },
                 { label: 'Contacto', href: 'mailto:hola@celuma.mx' },
               ]}
             />
@@ -85,7 +86,9 @@ export default function Footer() {
   )
 }
 
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+type FooterLink = { label: string; href: string; external?: boolean; soon?: boolean }
+
+function FooterColumn({ title, links }: { title: string; links: FooterLink[] }) {
   return (
     <div>
       <p
@@ -106,7 +109,12 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
           <li key={l.label}>
             <a
               href={l.href}
+              target={l.external ? '_blank' : undefined}
+              rel={l.external ? 'noopener noreferrer' : undefined}
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
                 fontSize: 14,
                 color: 'rgba(255,255,255,0.45)',
                 textDecoration: 'none',
@@ -116,6 +124,20 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
               onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.45)')}
             >
               {l.label}
+              {l.soon && (
+                <span style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  background: 'rgba(15,139,141,0.3)',
+                  color: '#7dd8d9',
+                  padding: '1px 5px',
+                  borderRadius: 3,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                }}>
+                  Pronto
+                </span>
+              )}
             </a>
           </li>
         ))}

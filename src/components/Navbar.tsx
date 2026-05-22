@@ -10,11 +10,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const links = [
+  const links: { label: string; href: string; external?: boolean; soon?: boolean }[] = [
     { label: 'Funcionalidades', href: '#funcionalidades' },
     { label: 'Cómo funciona', href: '#como-funciona' },
     { label: 'Para quién', href: '#para-quien' },
-    { label: 'Nosotros', href: '#nosotros' },
+    { label: 'Documentación', href: 'https://docs.celuma.mx', external: true, soon: true },
   ]
 
   return (
@@ -69,20 +69,39 @@ export default function Navbar() {
           className="hidden md:flex"
         >
           {links.map((l) => (
-            <li key={l.href}>
+            <li key={l.href} style={{ position: 'relative' }}>
               <a
                 href={l.href}
+                target={l.external ? '_blank' : undefined}
+                rel={l.external ? 'noopener noreferrer' : undefined}
                 style={{
                   textDecoration: 'none',
                   fontSize: 15,
                   fontWeight: 500,
-                  color: '#0d1b2a',
+                  color: l.soon ? '#6b7280' : '#0d1b2a',
                   transition: 'color 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = '#0f8b8d')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#0d1b2a')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = l.soon ? '#6b7280' : '#0d1b2a')}
               >
                 {l.label}
+                {l.soon && (
+                  <span style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    background: '#e6f7f7',
+                    color: '#0f8b8d',
+                    padding: '1px 6px',
+                    borderRadius: 4,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                  }}>
+                    Pronto
+                  </span>
+                )}
               </a>
             </li>
           ))}
@@ -91,7 +110,9 @@ export default function Navbar() {
         {/* CTA */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <a
-            href="#contacto"
+            href="https://app.celuma.mx"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               padding: '10px 24px',
               borderRadius: 10,
@@ -106,7 +127,7 @@ export default function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.background = '#0a6e70')}
             onMouseLeave={(e) => (e.currentTarget.style.background = '#0f8b8d')}
           >
-            Solicitar demo
+            Iniciar sesión
           </a>
 
           {/* Mobile hamburger */}
@@ -158,7 +179,9 @@ export default function Navbar() {
             ))}
             <li>
               <a
-                href="#contacto"
+                href="https://app.celuma.mx"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'inline-block',
@@ -171,7 +194,37 @@ export default function Navbar() {
                   textDecoration: 'none',
                 }}
               >
-                Solicitar demo
+                Iniciar sesión
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://docs.celuma.mx"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  fontSize: 16,
+                  fontWeight: 500,
+                  color: '#6b7280',
+                  textDecoration: 'none',
+                }}
+              >
+                Documentación
+                <span style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  background: '#e6f7f7',
+                  color: '#0f8b8d',
+                  padding: '1px 6px',
+                  borderRadius: 4,
+                  textTransform: 'uppercase',
+                }}>
+                  Pronto
+                </span>
               </a>
             </li>
           </ul>

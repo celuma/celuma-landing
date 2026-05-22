@@ -99,7 +99,9 @@ export default function Hero() {
 
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <a
-              href="#contacto"
+              href="https://app.celuma.mx"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -123,7 +125,7 @@ export default function Hero() {
                 e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
-              Solicitar demo
+              Empezar ahora
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
