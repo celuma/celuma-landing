@@ -1,0 +1,97 @@
+name: ci
+
+# Builds the Vite landing page and deploys it to S3 + CloudFront.
+#
+# Trigger: push of a tag v* deploys to prod (celuma.mx).
+# There is no staging environment for the landing page in this phase.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  AWS_REGION: mx-central-1
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Build (Vite → dist/)
+# ─────────────────────────────────────────────────────────────────────────────
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Vite build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Deploy to prod (tag v*)
+# ─────────────────────────────────────────────────────────────────────────────
+
+  deploy-prod:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Configure AWS (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::385511156241:role/GitHubActionsECSDeployRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Resolve CloudFront distribution id
+        id: cf
+        run: |
+          DIST_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?Comment=='Celuma prod (landing)'].Id | [0]" \
+            --output text)
+          if [ -z "$DIST_ID" ] || [ "$DIST_ID" = "None" ]; then
+            echo "::error::Could not find prod landing CloudFront distribution"
+            exit 1
+          fi
+          echo "dist_id=$DIST_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync dist/ s3://celuma-landing-prod/ \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "*.html"
+          aws s3 cp dist/index.html s3://celuma-landing-prod/index.html \
+            --cache-control "no-cache, no-store, must-revalidate" \
+            --content-type "text/html"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ steps.cf.outputs.dist_id }}" \
+            --paths "/index.html" "/" \
+            --no-cli-pager > /dev/null
+
+      - run: echo "### Landing deployed to prod (${{ github.ref_name }})" >> $GITHUB_STEP_SUMMARY
