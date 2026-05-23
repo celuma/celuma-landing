@@ -43,7 +43,7 @@ export default function Footer() {
                 { label: 'Funcionalidades', href: '#funcionalidades' },
                 { label: 'Cómo funciona', href: '#como-funciona' },
                 { label: 'Para quién', href: '#para-quien' },
-                { label: 'Documentación', href: 'https://docs.celuma.mx', external: true, soon: true },
+                { label: 'Documentación', href: 'https://docs.celuma.mx', external: true },
               ]}
             />
             <FooterColumn

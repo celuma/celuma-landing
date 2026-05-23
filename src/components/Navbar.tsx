@@ -14,7 +14,7 @@ export default function Navbar() {
     { label: 'Funcionalidades', href: '#funcionalidades' },
     { label: 'Cómo funciona', href: '#como-funciona' },
     { label: 'Para quién', href: '#para-quien' },
-    { label: 'Documentación', href: 'https://docs.celuma.mx', external: true, soon: true },
+    { label: 'Documentación', href: 'https://docs.celuma.mx', external: true },
   ]
 
   return (
@@ -60,7 +60,6 @@ export default function Navbar() {
         {/* Desktop links */}
         <ul
           style={{
-            display: 'flex',
             gap: 36,
             listStyle: 'none',
             margin: 0,
@@ -170,6 +169,8 @@ export default function Navbar() {
               <li key={l.href}>
                 <a
                   href={l.href}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noopener noreferrer' : undefined}
                   onClick={() => setMenuOpen(false)}
                   style={{ textDecoration: 'none', fontSize: 16, fontWeight: 500, color: '#0d1b2a' }}
                 >
@@ -195,36 +196,6 @@ export default function Navbar() {
                 }}
               >
                 Iniciar sesión
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://docs.celuma.mx"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  fontSize: 16,
-                  fontWeight: 500,
-                  color: '#6b7280',
-                  textDecoration: 'none',
-                }}
-              >
-                Documentación
-                <span style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  background: '#e6f7f7',
-                  color: '#0f8b8d',
-                  padding: '1px 6px',
-                  borderRadius: 4,
-                  textTransform: 'uppercase',
-                }}>
-                  Pronto
-                </span>
               </a>
             </li>
           </ul>

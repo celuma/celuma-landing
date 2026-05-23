@@ -143,18 +143,6 @@ export default function CTA() {
             }}
           >
             Documentación
-            <span style={{
-              fontSize: 10,
-              fontWeight: 700,
-              background: 'rgba(15,139,141,0.3)',
-              color: '#7dd8d9',
-              padding: '2px 7px',
-              borderRadius: 4,
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-            }}>
-              Pronto
-            </span>
           </a>
         </div>
 
